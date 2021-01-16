@@ -1,22 +1,50 @@
+"""
+Work in Progress.
+
+   	Solid fuel
+		|
+		|
+		V
+    Burn rate <-------.
+	|				  |
+	|			  Fuel_Mdot
+	|                 ^
+	V				  |
+	Chamber pressure--'
+			|
+			|nozzle throat
+			V
+		Exhaust_mdot
+			|
+			|Nozzle exit
+			V
+		Exhaust velocity
+			|
+			|
+			V
+		  Thrust
+"""
+
 import sympy as sp
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-F = 20 # required thrust in kg
-Pc = 10 # chamber pressure in bar/atm
-Tc = 1500 # combustion temperature in kelvin
-Dc = 0.05 # chamber dia
-rho = 1800 # solid propellant density kg/m^3
+F = 20.0 # required thrust in kg
+Pc = 10.0 # chamber pressure in bar/atm
+Tc = 1500.0 # combustion temperature in kelvin
+Dc = 0.025 # chamber dia
+rho = 1800.0 # solid propellant density kg/m^3
 k = 1.05 # ratio of specific heats for the exhaust gas
-M = 42 # molecular mass of combustion products
-Pe = 1 # ambient pressure in atm/bar
+M = 42.0 # molecular mass of combustion products
+Pe = 1.0 # ambient pressure in atm/bar
+# Robert's law: burn rate r = a*Pc**n
 a = 0.0665 # solid propellant burn rate constant
 n = 0.323 # solid propellant burn rate pressure exponent
 R = 8314.3 # Universal gas constant
 g = 9.806 # gravitational acceleration in m/s^2
-con = 60 # nozzle convergence half angle in degrees
-div = 15 # nozzle divergence half angle in degrees
+con = 60.0 # nozzle convergence half angle in degrees
+div = 15.0 # nozzle divergence half angle in degrees
 
 ve = np.sqrt((2*k/(k-1))*(R*Tc/M)*(1-((Pe/Pc)**((k-1)/k)))) # exhaust exit velocity
 mdot = F*g/ve # mass flow rate in kg/s (= fuel consumption rate at constant chamber pressure)
@@ -73,7 +101,7 @@ plt.ylabel('width (m)')
 plt.title('Nozzle profile')
 
 plt.figure(2)
-gam = np.linspace(1,2,100)
+gam = np.linspace(1.01,2,100)
 vel = np.sqrt((2*gam/(gam-1))*(R*Tc/M)*(1-((Pe/Pc)**((gam-1)/gam))))
 plt.subplot(311)
 plt.plot(gam,vel)
@@ -87,9 +115,9 @@ plt.subplot(312)
 plt.plot(To,vel)
 plt.grid(True)
 plt.ylabel('m/s')
-plt.title('Exit velocity as a function of combustion temperature(K)')
+plt.title('Exit velocity as a function of combustion temperature (K)')
 
-Mdot = np.linspace(0,5,50)
+Mdot = np.linspace(0.01,5,50)
 vel = F*g/Mdot
 Po = 1-(((vel**2)/(R*Tc))*0.5*(k-1)/k)
 Po = Pe*Po**(k/(1-k))
@@ -101,4 +129,3 @@ plt.xlabel('kg/s')
 plt.title('Chamber pressure required for various mass flow rates for achieving same thrust')
 
 plt.show()
-
