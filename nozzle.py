@@ -1,8 +1,5 @@
 """
 
-http://www.braeunig.us/space/propuls.htm
-
-
    	Burn area
 		|
 		|
