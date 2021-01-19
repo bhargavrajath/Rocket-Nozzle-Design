@@ -22,6 +22,8 @@
 			|
 			V
 		  Thrust
+		  
+Author: Rajath Bhargav
 
 """
 
